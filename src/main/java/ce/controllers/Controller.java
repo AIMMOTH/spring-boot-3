@@ -22,6 +22,6 @@ public class Controller {
 
 	@GetMapping("time")
 	public String getTime() {
-		return ZonedDateTime.now().format(DateTimeFormatter.ofPattern("YYYY-MM-DD HH:mm"));
+		return ZonedDateTime.now().format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm"));
 	}
 }
