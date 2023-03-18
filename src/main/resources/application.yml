@@ -1,0 +1,20 @@
+
+# https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties.core 
+
+spring:
+  application:
+    name: CE Spring Boot 3
+
+server:
+  address: localhost
+  port: 8084
+  http2:
+    enabled: true
+  max-http-request-header-size: 8KB    
+
+logging:
+  level:
+    ce: DEBUG
+  
+---
+

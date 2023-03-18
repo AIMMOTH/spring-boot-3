@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+	<head>
+		<title>CE Spring Boot 3</title>
+	</head>
+	<body>
+		<h1>CE Spring Boot 3</h1>
+		<p>Stuff</p>
+		<button onclick="multiply()">Multiply</button>
+		<button onclick="time()">Time</button>
+	</body>
+	<script>
+		function multiply() {
+// 			alert("Answer:" + (3*5));
+// 			const request = new XMLHttpRequest();
+// 			request.open('GET', '/multiply', false);
+// 			request.send(null);
+			fetch('/multiply')
+				.then((response) => response.text())
+				.then((text) => {
+					console.dir(text);
+					alert("Answer:" + text);
+				})
+				;
+		}
+		function time() {
+			fetch('/time')
+				.then((response) => response.text())
+				.then((text) => {
+					console.log(text);
+					alert("Time:" + text);
+				})
+				;
+		}
+	</script>
+</html>
