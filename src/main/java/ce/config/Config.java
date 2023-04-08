@@ -7,9 +7,4 @@ import ce.util.Util;
 
 @Configuration
 public class Config {
-
-	@Bean
-	public Util getUtil() {
-		return new Util();
-	}
 }

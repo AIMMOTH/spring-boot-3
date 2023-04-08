@@ -1,0 +1,65 @@
+openapi: 3.0.3
+info:
+  title: Spring Boot 3 with Open API
+  description: |-
+    A simple Spring Boot 3 implementation with:
+    - Open API (following https://www.baeldung.com/spring-boot-openapi-api-first-development)
+    - Controller
+    - Service
+    - Autowired (dependency injection DI)
+    - Properties (both properties and YAML/YML)
+    - Static web files
+  version: 1.0-SNAPSHOT
+#  servers:
+#    - url:http:/localhost:8084
+#  tags:
+#    - name: Implementation
+#      description: Simple implementation
+
+paths:
+  /server-time:
+    get:
+      tags:
+        - util
+      summary: Get the server time
+      operationId: getServerTime
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerTimeDto'
+
+  /multiply:
+    get:
+      tags:
+        - Maths
+      summary: Multiplies parameter with property
+      operationId: getParameterMultiplication
+      parameters:
+        - in: query
+          name: value
+          schema:
+            type: integer
+          description: The value to multiply with
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParameterMultiplicationDto'
+
+components:
+  schemas:
+    ServerTimeDto:
+      properties:
+        value:
+          type: string
+
+    ParameterMultiplicationDto:
+      properties:
+        value:
+          type: number
+          format: integer
