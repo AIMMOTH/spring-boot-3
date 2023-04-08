@@ -3,13 +3,14 @@ package ce.controller;
 import ce.api.controller.ServerTimeApi;
 import ce.api.dto.ServerTimeDto;
 import ce.util.Util;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+@AllArgsConstructor
 @RestController
 public class ServerTimeController implements ServerTimeApi {
-	@Autowired
 	private Util util;
 
 	@Override

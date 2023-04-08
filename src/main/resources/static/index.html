@@ -11,6 +11,7 @@
 		<button onclick="time()">Time</button>
 		<p>Klocka <span id="#klocka"></span></p>
 		<p>Message <input id="#message" type="text" value="Hello?"> <button onclick="clickSend()">Send</button></p>
+		<p>Incoming messae: <span id="#incoming"></span></p>
 	</body>
 	<script>
 		function multiply() {
@@ -57,6 +58,7 @@
 
 		conn.onmessage = function(msg) {
 			console.log("Got message", msg.data);
+			document.getElementById("#incoming").innerText = msg.data;
 			var content = JSON.parse(msg.data);
 			var data = content.data;
 			switch (content.event) {
