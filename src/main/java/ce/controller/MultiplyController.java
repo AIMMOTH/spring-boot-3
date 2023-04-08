@@ -3,17 +3,18 @@ package ce.controller;
 import ce.api.controller.MultiplyApi;
 import ce.api.dto.ParameterMultiplicationDto;
 import ce.service.CalculatorService;
+import lombok.AllArgsConstructor;
+import lombok.extern.java.Log;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+@AllArgsConstructor
+@Log
 @RestController
 public class MultiplyController implements MultiplyApi {
 
-	private Logger log = Logger.getLogger(MultiplyController.class);
-
-	@Autowired
 	private CalculatorService calculator;
 
 	@Override
