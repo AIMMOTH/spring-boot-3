@@ -26,7 +26,7 @@ public class TestMultiplyController {
     public void getParameterMultiplication() {
         // Given
         var parameter = 1;
-        var value = new BigDecimal(2);
+        var value = 2;
         var response = Mockito.mock(ParameterMultiplicationDto.class);
 
         Mockito.when(calculator.multiply(Mockito.eq(parameter))).thenReturn(response);

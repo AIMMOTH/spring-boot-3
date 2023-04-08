@@ -19,6 +19,6 @@ public class CalculatorService {
 
     public ParameterMultiplicationDto multiply(Integer value) {
         var result = util.multiply(multiplier, value);
-        return new ParameterMultiplicationDto().value(new BigDecimal(result));
+        return new ParameterMultiplicationDto().value(result);
     }
 }

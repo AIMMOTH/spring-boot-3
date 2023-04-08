@@ -5,13 +5,20 @@
 	</head>
 	<body>
 		<h1>CE Spring Boot 3</h1>
-		<p>Stuff</p>
+		<h2>Stuff</h2>
 		<p>Input <input id="input" type="number" value="13"></p>
 		<button onclick="multiply()">Multiply</button>
 		<button onclick="time()">Time</button>
 		<p>Klocka <span id="#klocka"></span></p>
+		<h2>WebSocket/WebRTC</h2>
 		<p>Message <input id="#message" type="text" value="Hello?"> <button onclick="clickSend()">Send</button></p>
 		<p>Incoming messae: <span id="#incoming"></span></p>
+		<h2>Immutable</h2>
+		<p>Create immutable objects and load with cache.</p>
+		<p><input id="#immutable-input" type="number" value="1"><button onclick="postImmutable()">Post</button></p>
+		<p>Latest immutable id: <span id="#immutable-id"></span></p>
+		<p><input id="#immutable-id-input" value="1"><button onclick="getImmutable()">Get</button></p>
+		<p>Immutable object: <span id="#immutable-object"></span></p>
 	</body>
 	<script>
 		function multiply() {
@@ -22,6 +29,45 @@
 				.then((text) => {
 					console.dir(text);
 					alert("Answer:" + text);
+				})
+				;
+		}
+		function postImmutable() {
+			var input = document.getElementById("#immutable-input").value;
+			var url = '/immutable';
+			var body = {
+				value: parseInt(input)
+			};
+			var options = {
+				method: "POST",
+				headers: {
+				  "Content-Type": "application/json",
+				  // 'Content-Type': 'application/x-www-form-urlencoded',
+				},
+				body: JSON.stringify(body)
+			};
+			fetch(url, options)
+				.then((response) => response.text())
+				.then((text) => {
+					console.dir(text);
+					var id = JSON.parse(text);
+					document.getElementById("#immutable-id").innerText = id.id;
+				})
+				;
+		}
+		function getImmutable() {
+			var id = document.getElementById("#immutable-id-input").value;
+			var parameter = new URLSearchParams({ id: id });
+			var url = '/immutable?' + parameter;
+			var options = {
+				method: "GET"
+			};
+			fetch(url, options)
+				.then((response) => response.text())
+				.then((text) => {
+					console.dir(text);
+					//var id = JSON.parse(text);
+					document.getElementById("#immutable-object").innerText = text;
 				})
 				;
 		}

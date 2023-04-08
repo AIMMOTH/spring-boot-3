@@ -51,6 +51,45 @@ paths:
               schema:
                 $ref: '#/components/schemas/ParameterMultiplicationDto'
 
+  /immutable:
+    post:
+      tags:
+        - Immutable
+      summary: Creates a new immutable object
+      operationId: postImmutable
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostImmutableDto'
+        description: A single object with a single value
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdDto'
+    get:
+      tags:
+        - Immutable
+      summary: Reads an immutable object
+      operationId: getImmutable
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          description: Id of existing immutable object
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImmutableDto'
+
 components:
   schemas:
     ServerTimeDto:
@@ -61,5 +100,19 @@ components:
     ParameterMultiplicationDto:
       properties:
         value:
-          type: number
-          format: integer
+          type: integer
+
+    PostImmutableDto:
+      properties:
+        value:
+          type: integer
+    IdDto:
+      properties:
+        id:
+          type: string
+    ImmutableDto:
+      properties:
+        id:
+          type: string
+        value:
+          type: integer
