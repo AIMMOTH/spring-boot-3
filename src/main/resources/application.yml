@@ -4,6 +4,24 @@
 spring:
   application:
     name: CE Spring Boot 3
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      username: ce
+      password: ce
+      database: ce
+      authentication-database: admin
+#      uri: mongodb://localhost:27017/ce
+      auto-index-creation: true
+  datasource:
+    url: jdbc:mariadb://localhost:3306/ce
+    username: ce
+    password: ce
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
 
 server:
   address: localhost

@@ -90,6 +90,44 @@ paths:
               schema:
                 $ref: '#/components/schemas/ImmutableDto'
 
+  /row:
+    post:
+      tags:
+        - mariadb
+      summary: Creates a row in MariaDB
+      operationId: postRow
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RowValueDto'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RowIdDto'
+    get:
+      tags:
+        - mariadb
+      summary: Reads a row in MariaDB
+      operationId: getRow
+      parameters:
+        - in: query
+          name: id
+          description: Id of row
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RowDto'
+
 components:
   schemas:
     ServerTimeDto:
@@ -116,3 +154,18 @@ components:
           type: string
         value:
           type: integer
+
+    RowValueDto:
+      properties:
+        value:
+          type: string
+    RowIdDto:
+      properties:
+        id:
+          type: integer
+    RowDto:
+      properties:
+        id:
+          type: integer
+        value:
+          type: string

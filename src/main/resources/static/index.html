@@ -5,7 +5,8 @@
 	</head>
 	<body>
 		<h1>CE Spring Boot 3</h1>
-		<h2>Stuff</h2>
+
+		<h2>JavaScript Stuff</h2>
 		<p>Input <input id="input" type="number" value="13"></p>
 		<button onclick="multiply()">Multiply</button>
 		<button onclick="time()">Time</button>
@@ -13,12 +14,20 @@
 		<h2>WebSocket/WebRTC</h2>
 		<p>Message <input id="#message" type="text" value="Hello?"> <button onclick="clickSend()">Send</button></p>
 		<p>Incoming messae: <span id="#incoming"></span></p>
+
 		<h2>Immutable</h2>
 		<p>Create immutable objects and load with cache.</p>
 		<p><input id="#immutable-input" type="number" value="1"><button onclick="postImmutable()">Post</button></p>
 		<p>Latest immutable id: <span id="#immutable-id"></span></p>
 		<p><input id="#immutable-id-input" value="1"><button onclick="getImmutable()">Get</button></p>
 		<p>Immutable object: <span id="#immutable-object"></span></p>
+
+		<h2>MariaDB</h2>
+		<p>Create row in MariaDB</p>
+		<p><input id="#row-input" value="1"><button onclick="postRow()">Post</button></p>
+		<p>Latest row id: <span id="#row-id"></span></p>
+		<p><input id="#row-id-input" value="1"><button onclick="getRow()">Get</button></p>
+		<p>Row: <span id="#row"></span></p>
 	</body>
 	<script>
 		function multiply() {
@@ -68,6 +77,46 @@
 					console.dir(text);
 					//var id = JSON.parse(text);
 					document.getElementById("#immutable-object").innerText = text;
+				})
+				;
+		}
+
+		function postRow() {
+			var input = document.getElementById("#row-input").value;
+			var url = '/row';
+			var body = {
+				value: input
+			};
+			var options = {
+				method: "POST",
+				headers: {
+				  "Content-Type": "application/json",
+				  // 'Content-Type': 'application/x-www-form-urlencoded',
+				},
+				body: JSON.stringify(body)
+			};
+			fetch(url, options)
+				.then((response) => response.text())
+				.then((text) => {
+					console.dir(text);
+					var id = JSON.parse(text);
+					document.getElementById("#row-id").innerText = id.id;
+				})
+				;
+		}
+		function getRow() {
+			var id = document.getElementById("#row-id-input").value;
+			var parameter = new URLSearchParams({ id: id });
+			var url = '/row?' + parameter;
+			var options = {
+				method: "GET"
+			};
+			fetch(url, options)
+				.then((response) => response.text())
+				.then((text) => {
+					console.dir(text);
+					//var id = JSON.parse(text);
+					document.getElementById("#row").innerText = text;
 				})
 				;
 		}
