@@ -21,7 +21,7 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create-drop # drops all tables in database each start
 
 server:
   address: localhost

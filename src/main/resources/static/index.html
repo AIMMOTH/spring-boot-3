@@ -17,7 +17,7 @@
 
 		<h2>Immutable</h2>
 		<p>Create immutable objects and load with cache.</p>
-		<p><input id="#immutable-input" type="number" value="1"><button onclick="postImmutable()">Post</button></p>
+		<p><input id="#immutable-input"><button onclick="postImmutable()">Post</button></p>
 		<p>Latest immutable id: <span id="#immutable-id"></span></p>
 		<p><input id="#immutable-id-input" value="1"><button onclick="getImmutable()">Get</button></p>
 		<p>Immutable object: <span id="#immutable-object"></span></p>
@@ -28,6 +28,14 @@
 		<p>Latest row id: <span id="#row-id"></span></p>
 		<p><input id="#row-id-input" value="1"><button onclick="getRow()">Get</button></p>
 		<p>Row: <span id="#row"></span></p>
+
+		<h2>MongoDB</h2>
+		<p>Create user in MongoDB</p>
+		<p><input id="#user-input"><button onclick="postUser()">Post</button></p>
+		<p>Latest user id: <span id="#user-id"></span></p>
+		<p><input id="#user-id-input" value="1"><button onclick="getUser()">Get</button></p>
+		<p>User: <span id="#user"></span></p>
+		<p><button onclick="getAllUsers()">Get ALL Users</button></p>
 	</body>
 	<script>
 		function multiply() {
@@ -51,7 +59,6 @@
 				method: "POST",
 				headers: {
 				  "Content-Type": "application/json",
-				  // 'Content-Type': 'application/x-www-form-urlencoded',
 				},
 				body: JSON.stringify(body)
 			};
@@ -91,7 +98,6 @@
 				method: "POST",
 				headers: {
 				  "Content-Type": "application/json",
-				  // 'Content-Type': 'application/x-www-form-urlencoded',
 				},
 				body: JSON.stringify(body)
 			};
@@ -117,6 +123,57 @@
 					console.dir(text);
 					//var id = JSON.parse(text);
 					document.getElementById("#row").innerText = text;
+				})
+				;
+		}
+		function postUser() {
+			var input = document.getElementById("#user-input").value;
+			var url = '/user';
+			var body = {
+				value: input
+			};
+			var options = {
+				method: "POST",
+				headers: {
+				  "Content-Type": "application/json",
+				},
+				body: JSON.stringify(body)
+			};
+			fetch(url, options)
+				.then((response) => response.text())
+				.then((text) => {
+					console.dir(text);
+					var id = JSON.parse(text);
+					document.getElementById("#user-id").innerText = id.id;
+				})
+				;
+		}
+		function getUser() {
+			var id = document.getElementById("#user-id-input").value;
+			var parameter = new URLSearchParams({ id: id });
+			var url = '/user?' + parameter;
+			var options = {
+				method: "GET"
+			};
+			fetch(url, options)
+				.then((response) => response.text())
+				.then((text) => {
+					console.dir(text);
+					//var id = JSON.parse(text);
+					document.getElementById("#user").innerText = text;
+				})
+				;
+		}
+		function getAllUsers() {
+			var url = '/user/all';
+			var options = {
+				method: "GET"
+			};
+			fetch(url, options)
+				.then((response) => response.text())
+				.then((text) => {
+					console.dir(text);
+					//var id = JSON.parse(text);
 				})
 				;
 		}

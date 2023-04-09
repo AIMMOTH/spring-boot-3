@@ -127,6 +127,56 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RowDto'
+  /user:
+    post:
+      tags:
+        - mongodb
+      summary: Creates an user in MongoDb
+      operationId: postUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserValueDto'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserIdDto'
+    get:
+      tags:
+        - mongodb
+      summary: Reads an user in MongoDb
+      operationId: getUser
+      parameters:
+        - in: query
+          name: id
+          description: Id of user
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+  /user/all:
+    get:
+      tags:
+        - mongodb
+      summary: Reads all users in MongoDb
+      operationId: getAllUsers
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllUsersDto'
 
 components:
   schemas:
@@ -169,3 +219,24 @@ components:
           type: integer
         value:
           type: string
+
+    UserValueDto:
+      properties:
+        value:
+          type: string
+    UserIdDto:
+      properties:
+        id:
+          type: string
+    UserDto:
+      properties:
+        id:
+          type: string
+        value:
+          type: string
+    AllUsersDto:
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDto'
