@@ -1,6 +1,11 @@
 
 # https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties.core 
 
+# Auth0
+auth0:
+  audience: aimmoth-api-rs256
+  domain: aimmoth.eu.auth0.com
+
 spring:
   application:
     name: CE Spring Boot 3
@@ -22,6 +27,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop # drops all tables in database each start
+  security:
+    oauth2:
+      resourceServer:
+        jwt:
+          issuer-uri: https://${auth0.domain}/
+
 
 server:
   address: localhost

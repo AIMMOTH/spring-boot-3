@@ -2,9 +2,44 @@
 	<head>
 		<title>CE Spring Boot 3</title>
 		<link rel="icon" type="image/x-icon" href="favicon.ico">
+		<style>
+			.hidden {
+			  display: none;
+			}
+
+			label {
+			  margin-bottom: 10px;
+			  display: block;
+			}
+		</style>
 	</head>
 	<body>
 		<h1>CE Spring Boot 3</h1>
+
+		<h3>Auth0</h3>
+		<p>
+			<button id="btn-login" disabled="false" onclick="login()">Log in</button>
+			<button id="btn-logout" disabled="false" onclick="logout()">Log out</button>
+		</p>
+		<div class="hidden" id="gated-content">
+			<p>
+				You're seeing this content because you're currently
+				<strong>logged in</strong>.
+			</p>
+			<label>
+				Access token:
+				<pre id="ipt-access-token"></pre>
+			</label>
+			<label>
+				ID token:
+				<pre id="ipt-id-token"></pre>
+			</label>
+			<label>
+				User profile:
+				<pre id="ipt-user-profile"></pre>
+			</label>
+			<p>Get private API call <button onClick="getPrivate()">GET Private</button></p>
+		</div>
 
 		<h2>JavaScript Stuff</h2>
 		<p>Input <input id="input" type="number" value="13"></p>
@@ -37,6 +72,7 @@
 		<p>User: <span id="#user"></span></p>
 		<p><button onclick="getAllUsers()">Get ALL Users</button></p>
 	</body>
+	<script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
 	<script>
 		function multiply() {
 			var input = document.getElementById("input").value;
@@ -177,6 +213,34 @@
 				})
 				;
 		}
+		function getPrivate() {
+			// var parameter = new URLSearchParams({ audience: "aimmoth-api-rs256" });
+			// var url = '/api/v1/private/?' + parameter;
+			var url = '/api/v1/private/';
+			auth0Client.getTokenSilently({authorizationParams: {audience:"aimmoth-api-rs256"}, detailedResponse: true}).then(function(token) {
+				console.log("Token:");
+				console.dir(token);
+				// auth0Client.getIdTokenClaims().then(function(id) {
+				// var index = token.indexOf("..");
+				// var cut = token.substring(index + 2, token.length);
+				// console.log("cut to:" + cut);
+				var accessToken = "Bearer " + token.access_token;
+				var options = {
+					method: "GET",
+					headers: {
+						"Authorization": accessToken
+						// "Authorization": "Bearer " + id.nonce
+					}
+				};
+				fetch(url, options)
+					.then((response) => response.text())
+					.then((text) => {
+						console.log(text);
+						//var id = JSON.parse(text);
+					})
+					;
+			});
+		}
 		function time() {
 			fetch('/server-time')
 				.then((response) => response.text())
@@ -199,9 +263,90 @@
 			send(message);
 		}
 
+		// Auth0
+		var auth0Client = null;
+		// ..
+		var fetchAuthConfig = () => fetch("/auth_config.json");
+		const configureClient = async () => {
+		  const response = await fetchAuthConfig();
+		  const config = await response.json();
+
+		  auth0Client = await auth0.createAuth0Client({
+		  	audience: "aimmoth-api-rs256",
+			domain: config.domain,
+			clientId: config.clientId
+		  });
+		};
+		const updateUI = async () => {
+		  const isAuthenticated = await auth0Client.isAuthenticated();
+
+		  document.getElementById("btn-logout").disabled = !isAuthenticated;
+		  document.getElementById("btn-login").disabled = isAuthenticated;
+
+		    if (isAuthenticated) {
+			document.getElementById("gated-content").classList.remove("hidden");
+
+			document.getElementById(
+			  "ipt-access-token"
+			).innerHTML = await auth0Client.getTokenSilently();
+
+			auth0Client.getIdTokenClaims().then(function(id) {
+				// console.log("Id Token Claims:");
+				// console.dir(id);
+				document.getElementById(
+				  "ipt-id-token"
+				).innerHTML = id.nonce;
+			});
+
+			document.getElementById("ipt-user-profile").textContent = JSON.stringify(
+			  await auth0Client.getUser()
+			);
+
+		  } else {
+			document.getElementById("gated-content").classList.add("hidden");
+		  }
+		};
+		window.onload = async () => {
+		  await configureClient();
+
+		  updateUI();
+		  const isAuthenticated = await auth0Client.isAuthenticated();
+
+		  if (isAuthenticated) {
+			// show the gated content
+			return;
+		  }
+
+		  // NEW - check for the code and state parameters
+		  const query = window.location.search;
+		  if (query.includes("code=") && query.includes("state=")) {
+
+			// Process the login state
+			await auth0Client.handleRedirectCallback();
+
+			updateUI();
+
+			// Use replaceState to redirect the user away and remove the querystring parameters
+			window.history.replaceState({}, document.title, "/");
+		  }
+		}
+		const login = async () => {
+		  await auth0Client.loginWithRedirect({
+			authorizationParams: {
+			  redirect_uri: window.location.origin
+			}
+		  });
+		};
+		const logout = () => {
+		  auth0Client.logout({
+			logoutParams: {
+			  returnTo: window.location.origin
+			}
+		  });
+		};
 		// From Baeldung Github https://github.com/eugenp/tutorials/blob/master/webrtc/src/main/resources/static/client.js
 		//connecting to our signaling server
-		var conn = new WebSocket('ws://localhost:8084/web-socket');
+		var conn = new WebSocket('ws://localhost:8084/web-socket/');
 
 		conn.onopen = function() {
 			console.log("Connected to the signaling server");

@@ -25,6 +25,8 @@
 
 		<lombok.version>1.18.26</lombok.version>
 
+		<auth0.version>4.4.0</auth0.version>
+
 		<mockito.version>5.2.0</mockito.version>
 		<junit.version>5.9.2</junit.version>
 	</properties>
@@ -46,6 +48,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-cache</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-messaging</artifactId>
+<!--			<version>6.0.2</version>-->
+		</dependency>
+
 		<!-- DB -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -59,6 +67,28 @@
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+		<!-- Security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-oauth2-resource-server</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-oauth2-jose</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>${auth0.version}</version>
 		</dependency>
 		<!-- WEB RTC -->
 		<dependency>
