@@ -1,4 +1,5 @@
 {
   "domain": "https://aimmoth.eu.auth0.com",
-  "clientId": "WaDQhMbyF6uvmdUg1E5naQVUF6h7UA4g"
+  "clientId": "WaDQhMbyF6uvmdUg1E5naQVUF6h7UA4g",
+  "audience": "aimmoth-api-rs256"
 }

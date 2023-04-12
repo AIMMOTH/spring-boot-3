@@ -5,8 +5,6 @@ import ce.api.dto.ParameterMultiplicationDto;
 import ce.service.CalculatorService;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
-import org.jboss.logging.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
