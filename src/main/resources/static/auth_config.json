@@ -1,4 +1,5 @@
 {
-  "domain": "https://aimmoth.eu.auth0.com",
-  "clientId": "WaDQhMbyF6uvmdUg1E5naQVUF6h7UA4g"
+  "domain": "https://tenant.eu.auth0.com",
+  "clientId": "client-id-of-your-spa-application",
+  "audience": "api-identifier"
 }

@@ -74,10 +74,35 @@
 	</body>
 	<script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
 	<script>
+		// Stupid way to access these globally
+		var TOKEN = null;
+		var AUDIENCE = null;
+
+		function time() {
+			var options = {
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + TOKEN
+				}
+			};
+			fetch('/server-time', options)
+				.then((response) => response.text())
+				.then((text) => {
+					console.log(text);
+					alert("Time:" + text);
+				})
+				;
+		}
 		function multiply() {
 			var input = document.getElementById("input").value;
 			var parameter = new URLSearchParams({ value: input });
-			fetch('/multiply?' + parameter)
+			var options = {
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + TOKEN
+				}
+			};
+			fetch('/multiply?' + parameter, options)
 				.then((response) => response.text())
 				.then((text) => {
 					console.dir(text);
@@ -94,7 +119,8 @@
 			var options = {
 				method: "POST",
 				headers: {
-				  "Content-Type": "application/json",
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + TOKEN
 				},
 				body: JSON.stringify(body)
 			};
@@ -112,7 +138,10 @@
 			var parameter = new URLSearchParams({ id: id });
 			var url = '/immutable?' + parameter;
 			var options = {
-				method: "GET"
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + TOKEN
+				}
 			};
 			fetch(url, options)
 				.then((response) => response.text())
@@ -133,7 +162,8 @@
 			var options = {
 				method: "POST",
 				headers: {
-				  "Content-Type": "application/json",
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + TOKEN
 				},
 				body: JSON.stringify(body)
 			};
@@ -151,7 +181,10 @@
 			var parameter = new URLSearchParams({ id: id });
 			var url = '/row?' + parameter;
 			var options = {
-				method: "GET"
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + TOKEN
+				}
 			};
 			fetch(url, options)
 				.then((response) => response.text())
@@ -171,7 +204,8 @@
 			var options = {
 				method: "POST",
 				headers: {
-				  "Content-Type": "application/json",
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + TOKEN
 				},
 				body: JSON.stringify(body)
 			};
@@ -189,7 +223,10 @@
 			var parameter = new URLSearchParams({ id: id });
 			var url = '/user?' + parameter;
 			var options = {
-				method: "GET"
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + TOKEN
+				}
 			};
 			fetch(url, options)
 				.then((response) => response.text())
@@ -203,7 +240,10 @@
 		function getAllUsers() {
 			var url = '/user/all';
 			var options = {
-				method: "GET"
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + TOKEN
+				}
 			};
 			fetch(url, options)
 				.then((response) => response.text())
@@ -214,39 +254,18 @@
 				;
 		}
 		function getPrivate() {
-			// var parameter = new URLSearchParams({ audience: "aimmoth-api-rs256" });
-			// var url = '/api/v1/private/?' + parameter;
 			var url = '/api/v1/private/';
-			auth0Client.getTokenSilently({authorizationParams: {audience:"aimmoth-api-rs256"}, detailedResponse: true}).then(function(token) {
-				console.log("Token:");
-				console.dir(token);
-				// auth0Client.getIdTokenClaims().then(function(id) {
-				// var index = token.indexOf("..");
-				// var cut = token.substring(index + 2, token.length);
-				// console.log("cut to:" + cut);
-				var accessToken = "Bearer " + token.access_token;
-				var options = {
-					method: "GET",
-					headers: {
-						"Authorization": accessToken
-						// "Authorization": "Bearer " + id.nonce
-					}
-				};
-				fetch(url, options)
-					.then((response) => response.text())
-					.then((text) => {
-						console.log(text);
-						//var id = JSON.parse(text);
-					})
-					;
-			});
-		}
-		function time() {
-			fetch('/server-time')
+			var options = {
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + TOKEN
+				}
+			};
+			fetch(url, options)
 				.then((response) => response.text())
 				.then((text) => {
 					console.log(text);
-					alert("Time:" + text);
+					//var id = JSON.parse(text);
 				})
 				;
 		}
@@ -265,14 +284,16 @@
 
 		// Auth0
 		var auth0Client = null;
-		// ..
 		var fetchAuthConfig = () => fetch("/auth_config.json");
+
 		const configureClient = async () => {
 		  const response = await fetchAuthConfig();
 		  const config = await response.json();
 
+		  AUDIENCE = config.audience;
+
 		  auth0Client = await auth0.createAuth0Client({
-		  	audience: "aimmoth-api-rs256",
+		  	audience: AUDIENCE,
 			domain: config.domain,
 			clientId: config.clientId
 		  });
@@ -283,19 +304,25 @@
 		  document.getElementById("btn-logout").disabled = !isAuthenticated;
 		  document.getElementById("btn-login").disabled = isAuthenticated;
 
-		    if (isAuthenticated) {
+			console.log("Authenticated?" + isAuthenticated);
+		  if (isAuthenticated) {
 			document.getElementById("gated-content").classList.remove("hidden");
 
-			document.getElementById(
-			  "ipt-access-token"
-			).innerHTML = await auth0Client.getTokenSilently();
-
+			console.log("Getting Id Token.");
 			auth0Client.getIdTokenClaims().then(function(id) {
-				// console.log("Id Token Claims:");
-				// console.dir(id);
+				console.log("Id Token:");
+				console.dir(id);
 				document.getElementById(
 				  "ipt-id-token"
 				).innerHTML = id.nonce;
+			});
+
+			console.log("Getting Access Token.");
+			auth0Client.getTokenSilently({authorizationParams: {audience: AUDIENCE}, detailedResponse: true}).then(function(token) {
+				console.log("Access token:");
+				console.dir(token);
+				TOKEN = token.access_token;
+				document.getElementById("ipt-access-token").innerHTML = TOKEN
 			});
 
 			document.getElementById("ipt-user-profile").textContent = JSON.stringify(
@@ -333,6 +360,7 @@
 		const login = async () => {
 		  await auth0Client.loginWithRedirect({
 			authorizationParams: {
+			  audience: AUDIENCE,
 			  redirect_uri: window.location.origin
 			}
 		  });
