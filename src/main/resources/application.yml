@@ -12,7 +12,6 @@ spring:
       password: ce
       database: ce
       authentication-database: admin
-#      uri: mongodb://localhost:27017/ce
       auto-index-creation: true
   datasource:
     url: jdbc:mariadb://localhost:3306/ce
@@ -32,6 +31,7 @@ server:
 
 logging:
   level:
+    org: INFO
     ce: DEBUG
 
 ce:

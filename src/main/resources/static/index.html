@@ -38,6 +38,15 @@
 		<p><button onclick="getAllUsers()">Get ALL Users</button></p>
 	</body>
 	<script>
+		function time() {
+			fetch('/server-time')
+				.then((response) => response.text())
+				.then((text) => {
+					console.log(text);
+					alert("Time:" + text);
+				})
+				;
+		}
 		function multiply() {
 			var input = document.getElementById("input").value;
 			var parameter = new URLSearchParams({ value: input });
@@ -174,15 +183,6 @@
 				.then((text) => {
 					console.dir(text);
 					//var id = JSON.parse(text);
-				})
-				;
-		}
-		function time() {
-			fetch('/server-time')
-				.then((response) => response.text())
-				.then((text) => {
-					console.log(text);
-					alert("Time:" + text);
 				})
 				;
 		}
