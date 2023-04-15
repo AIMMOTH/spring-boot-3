@@ -3,8 +3,8 @@
 
 # Auth0
 auth0:
-  audience: aimmoth-api-rs256
-  domain: aimmoth.eu.auth0.com
+  audience: auth0-api-identifier
+  domain: auth0-tenant.eu.auth0.com
 
 spring:
   application:

@@ -12,6 +12,11 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:other.properties")
 public class OtherConfig {
 
+    /*
+     * If you have a property called "secret1" it will be mapped to this field.
+     * If not, it will look for "secret3"
+     * and otherwise give default value "top-secret"
+     */
     @Value("${secret3:top-secret}")
     private String secret1;
 
