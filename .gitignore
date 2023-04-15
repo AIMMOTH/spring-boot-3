@@ -1,6 +1,9 @@
 # Docker Composer database folder
 db/
 
+# Secrets
+src/main/resources/other.properties
+
 # Compiled class file
 *.class
 
