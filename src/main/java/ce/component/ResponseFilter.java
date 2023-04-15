@@ -1,4 +1,4 @@
-package ce.config;
+package ce.component;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,5 +1,6 @@
-package ce.config;
+package ce.component;
 
+import ce.model.HttpRequestFields;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

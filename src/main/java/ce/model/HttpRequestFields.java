@@ -1,4 +1,4 @@
-package ce.config;
+package ce.model;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Data;
@@ -40,7 +40,7 @@ public class HttpRequestFields {
     private final int remotePort;
     private final int serverPort;
 
-    HttpRequestFields(HttpServletRequest httpRequest) {
+    public HttpRequestFields(HttpServletRequest httpRequest) {
         this.method = httpRequest.getMethod();
         this.pathInfo = httpRequest.getPathInfo();
         this.requestUri = httpRequest.getRequestURI();
