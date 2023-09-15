@@ -8,20 +8,26 @@ import ce.mariadb.RowRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @AllArgsConstructor
 @Service
 public class RowService {
 
     private RowRepository repo;
 
-    public RowIdDto createRow(RowValueDto value) {
+    public Optional<RowIdDto> createRow(RowValueDto value) {
         var entity = RowEntity.builder().value(value.getValue()).build();
-        var saved = repo.save(entity);
-        return new RowIdDto().id(saved.getId());
+        var saved = repo.save(entity).blockOptional();
+        if (saved.isPresent()) {
+            return Optional.of(new RowIdDto().id(saved.get().getId()));
+        } else {
+            return Optional.empty();
+        }
     }
 
     public RowDto readRow(Integer id) {
-        var entity = repo.findById(id);
+        var entity = repo.findById(id).blockOptional();
         if (entity.isPresent()) {
             return new RowDto().id(entity.get().getId()).value(entity.get().getValue());
         } else {

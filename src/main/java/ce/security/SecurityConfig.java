@@ -17,6 +17,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @Log
 public class SecurityConfig {
 
+    /**
+     * Also called API Identifier at Auth0
+     */
   @Value("${auth0.audience}")
   private String audience;
 

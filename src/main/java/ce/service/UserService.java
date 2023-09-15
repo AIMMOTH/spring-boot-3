@@ -10,6 +10,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+// https://www.bezkoder.com/spring-boot-mongodb-reactive/
 @AllArgsConstructor
 @Log
 @Service
@@ -17,18 +21,22 @@ public class UserService {
 
     private UserRepository repo;
 
-    public UserIdDto createUser(UserValueDto value) {
+    public Optional<UserIdDto> createUser(UserValueDto value) {
         var document = new UserDocument();
         document.setValue(value.getValue());
         log.info("Saving document:" + document);
-        var saved = repo.save(document);
-        log.info("Saved:" + saved);
-        return new UserIdDto().id(saved.getId());
+        var saved = repo.save(document).blockOptional();
+        if (saved.isPresent()) {
+            log.info("Saved:" + saved);
+            return Optional.of(new UserIdDto().id(saved.get().getId()));
+        } else {
+            return Optional.empty();
+        }
     }
 
     public UserDto readUser(String id) {
         log.info("Finding user document with id:" + id);
-        var document = repo.findById(id);
+        var document = repo.findById(id).blockOptional();
         if (document.isPresent()) {
             log.info("Found document with id:" + id);
             return new UserDto().id(document.get().getId()).value(document.get().getValue());
@@ -38,7 +46,7 @@ public class UserService {
     }
 
     public AllUsersDto readAllUsers() {
-        var all = repo.findAll().stream().map(document -> new UserDto().id(document.getId()).value(document.getValue())).toList();
+        var all = repo.findAll().map(document -> new UserDto().id(document.getId()).value(document.getValue())).toStream().collect(Collectors.toList());
         return new AllUsersDto().users(all);
     }
 }

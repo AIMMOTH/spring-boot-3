@@ -18,14 +18,10 @@ spring:
       database: ce
       authentication-database: admin
       auto-index-creation: true
-  datasource:
-    url: jdbc:mariadb://localhost:3306/ce
-    username: ce
-    password: ce
-    driver-class-name: org.mariadb.jdbc.Driver
-  jpa:
-    hibernate:
-      ddl-auto: create-drop # drops all tables in database each start
+  r2dbc:
+      url: r2dbc:mariadb://localhost:3306/ce
+      username: ce
+      password: ce
   security:
     oauth2:
       resourceServer:

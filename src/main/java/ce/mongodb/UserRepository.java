@@ -1,8 +1,10 @@
 package ce.mongodb;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends MongoRepository<UserDocument, String> {
+@Repository
+public interface UserRepository extends ReactiveMongoRepository<UserDocument, String> {
 
     UserDocument findFirstByOrderByCreated();
 }

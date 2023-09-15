@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
+import java.util.Optional;
+
 @AllArgsConstructor
 @Controller
 public class UserController implements UserApi {
@@ -18,8 +20,12 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<UserIdDto> postUser(UserValueDto value) {
-        UserIdDto result = service.createUser(value);
-        return ResponseEntity.ok(result);
+        Optional<UserIdDto> result = service.createUser(value);
+        if (result.isPresent()) {
+            return ResponseEntity.ok(result.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @Override
