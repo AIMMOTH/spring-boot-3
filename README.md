@@ -25,7 +25,7 @@ Running Spring Boot 3 with the following features:
 
 Vocabulary:
 
-- **Tenant**, regional data storage of service and profiles. Also colled **domain**
+- **Tenant**, regional data storage of service and profiles. Also called **domain**
 - **JWT** (Java Web Token). 3 parts divided by dots
 - **Access token**, JWT to authenticate HTTP calls. Used with the Authorization bearer header.
 - **Id token**, used to access basic profile information at Auth0
@@ -47,7 +47,13 @@ At Auth0:
 2. Create an API using RSA246 (this will all clients connect to, including backend)
 3. Create a Single Page Application client connected with the API
 4. Add your localhost as allowed callback url, logout, web origins and CORS.
-5. Keep track of domain (tenant.eu.auth0.com), audience (API identifier), client id (from Single Page Application client). Use these in application.yml and auth_config.json
+5. Keep track of domain (tenant.eu.auth0.com), audience (API identifier), client id (from Single Page Application client). **Use these in application.yml and auth_config.json**
+
+### Preparation
+
+- Create *src/main/resources/other.properties* which is necessary to start Spring Boot. This will is not added to GIT and can be used for secrets
+- Edit *src/main/resources/application.yaml* and add: **auth0.audience** (API identifier), **auth0.domain** (tenant URL)
+- Edit *src/main/resources/static/auth0_config.json* with **domain** (tenant URL), **client id** (your application client id), **audience** (your API identifier)
 
 ### Start
 

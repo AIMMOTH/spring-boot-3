@@ -10,11 +10,6 @@ info:
     - Properties (both properties and YAML/YML)
     - Static web files
   version: 1.0-SNAPSHOT
-#  servers:
-#    - url:http:/localhost:8084
-#  tags:
-#    - name: Implementation
-#      description: Simple implementation
 
 paths:
   /server-time:

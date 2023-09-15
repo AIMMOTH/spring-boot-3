@@ -16,6 +16,8 @@ public class ResponseFilter implements Filter {
 
     @Value("${ce.security.cors}")
     private String cors;
+    @Value("${auth0.domain}")
+    private String auth0Tenant;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -24,7 +26,7 @@ public class ResponseFilter implements Filter {
             var httpResponse = (HttpServletResponse) response;
 
             var cspKey = "Content-Security-Policy";
-            var domains = cors + " https://cdn.auth0.com https://aimmoth.eu.auth0.com";
+            var domains = cors + " https://cdn.auth0.com " + auth0Tenant;
             var scriptCsp = domains + " 'unsafe-inline' 'unsafe-eval'";
             var styleCsp = "'unsafe-inline';";
 
