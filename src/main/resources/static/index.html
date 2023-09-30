@@ -75,423 +75,423 @@
 	</body>
 	<script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
 	<script>
-				// Stupid way to access these globally
-				var TOKEN = null;
-				var AUDIENCE = null;
-				var webSocketAddress = 'wss://https://com-github-aimmoth-spring-boot-3.jls-sto2.elastx.net/web-socket/';
+		// Stupid way to access these globally
+		var TOKEN = null;
+		var AUDIENCE = null;
+		var webSocketAddress = 'ws://localhost:8084/web-socket/';
 
-        function time() {
-          var options = {
-            method: "GET",
-            headers: {
-              Authorization: "Bearer " + TOKEN
-            }
-          };
-          fetch('/server-time', options)
-            .then((response) => response.text())
-            .then((text) => {
-              console.log(text);
-              alert("Time:" + text);
-            })
-            ;
-        }
-        function multiply() {
-          var input = document.getElementById("input").value;
-          var parameter = new URLSearchParams({ value: input });
-          var options = {
-            method: "GET",
-            headers: {
-              Authorization: "Bearer " + TOKEN
-            }
-          };
-          fetch('/multiply?' + parameter, options)
-            .then((response) => response.text())
-            .then((text) => {
-              console.dir(text);
-              alert("Answer:" + text);
-            })
-            ;
-        }
-        function postImmutable() {
-          var input = document.getElementById("#immutable-input").value;
-          var url = '/immutable';
-          var body = {
-            value: parseInt(input)
-          };
-          var options = {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + TOKEN
-            },
-            body: JSON.stringify(body)
-          };
-          fetch(url, options)
-            .then((response) => response.text())
-            .then((text) => {
-              console.dir(text);
-              var id = JSON.parse(text);
-              document.getElementById("#immutable-id").innerText = id.id;
-            })
-            ;
-        }
-        function getImmutable() {
-          var id = document.getElementById("#immutable-id-input").value;
-          var parameter = new URLSearchParams({ id: id });
-          var url = '/immutable?' + parameter;
-          var options = {
-            method: "GET",
-            headers: {
-              Authorization: "Bearer " + TOKEN
-            }
-          };
-          fetch(url, options)
-            .then((response) => response.text())
-            .then((text) => {
-              console.dir(text);
-              //var id = JSON.parse(text);
-              document.getElementById("#immutable-object").innerText = text;
-            })
-            ;
-        }
+		function time() {
+			var options = {
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + TOKEN
+				}
+			};
+			fetch('/server-time', options)
+				.then((response) => response.text())
+				.then((text) => {
+					console.log(text);
+					alert("Time:" + text);
+				})
+				;
+		}
+		function multiply() {
+			var input = document.getElementById("input").value;
+			var parameter = new URLSearchParams({ value: input });
+			var options = {
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + TOKEN
+				}
+			};
+			fetch('/multiply?' + parameter, options)
+				.then((response) => response.text())
+				.then((text) => {
+					console.dir(text);
+					alert("Answer:" + text);
+				})
+				;
+		}
+		function postImmutable() {
+			var input = document.getElementById("#immutable-input").value;
+			var url = '/immutable';
+			var body = {
+				value: parseInt(input)
+			};
+			var options = {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + TOKEN
+				},
+				body: JSON.stringify(body)
+			};
+			fetch(url, options)
+				.then((response) => response.text())
+				.then((text) => {
+					console.dir(text);
+					var id = JSON.parse(text);
+					document.getElementById("#immutable-id").innerText = id.id;
+				})
+				;
+		}
+		function getImmutable() {
+			var id = document.getElementById("#immutable-id-input").value;
+			var parameter = new URLSearchParams({ id: id });
+			var url = '/immutable?' + parameter;
+			var options = {
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + TOKEN
+				}
+			};
+			fetch(url, options)
+				.then((response) => response.text())
+				.then((text) => {
+					console.dir(text);
+					//var id = JSON.parse(text);
+					document.getElementById("#immutable-object").innerText = text;
+				})
+				;
+		}
 
-        function postRow() {
-          var input = document.getElementById("#row-input").value;
-          var url = '/row';
-          var body = {
-            value: input
-          };
-          var options = {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + TOKEN
-            },
-            body: JSON.stringify(body)
-          };
-          fetch(url, options)
-            .then((response) => response.text())
-            .then((text) => {
-              console.dir(text);
-              var id = JSON.parse(text);
-              document.getElementById("#row-id").innerText = id.id;
-            })
-            ;
-        }
-        function getRow() {
-          var id = document.getElementById("#row-id-input").value;
-          var parameter = new URLSearchParams({ id: id });
-          var url = '/row?' + parameter;
-          var options = {
-            method: "GET",
-            headers: {
-              Authorization: "Bearer " + TOKEN
-            }
-          };
-          fetch(url, options)
-            .then((response) => response.text())
-            .then((text) => {
-              console.dir(text);
-              //var id = JSON.parse(text);
-              document.getElementById("#row").innerText = text;
-            })
-            ;
-        }
-        function postUser() {
-          var input = document.getElementById("#user-input").value;
-          var url = '/user';
-          var body = {
-            value: input
-          };
-          var options = {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + TOKEN
-            },
-            body: JSON.stringify(body)
-          };
-          fetch(url, options)
-            .then((response) => response.text())
-            .then((text) => {
-              console.dir(text);
-              var id = JSON.parse(text);
-              document.getElementById("#user-id").innerText = id.id;
-            })
-            ;
-        }
-        function getUser() {
-          var id = document.getElementById("#user-id-input").value;
-          var parameter = new URLSearchParams({ id: id });
-          var url = '/user?' + parameter;
-          var options = {
-            method: "GET",
-            headers: {
-              Authorization: "Bearer " + TOKEN
-            }
-          };
-          fetch(url, options)
-            .then((response) => response.text())
-            .then((text) => {
-              console.dir(text);
-              //var id = JSON.parse(text);
-              document.getElementById("#user").innerText = text;
-            })
-            ;
-        }
-        function getAllUsers() {
-          var url = '/user/all';
-          var options = {
-            method: "GET",
-            headers: {
-              Authorization: "Bearer " + TOKEN
-            }
-          };
-          fetch(url, options)
-            .then((response) => response.text())
-            .then((text) => {
-              console.dir(text);
-              //var id = JSON.parse(text);
-            })
-            ;
-        }
-        function getPrivate() {
-          var url = '/api/v1/private/';
-          var options = {
-            method: "GET",
-            headers: {
-              Authorization: "Bearer " + TOKEN
-            }
-          };
-          fetch(url, options)
-            .then((response) => response.text())
-            .then((text) => {
-              console.log(text);
-              //var id = JSON.parse(text);
-            })
-            ;
-        }
-        function setTime() {
-          document.getElementById("#klocka").innerHTML = new Date().toLocaleString();
-        }
+		function postRow() {
+			var input = document.getElementById("#row-input").value;
+			var url = '/row';
+			var body = {
+				value: input
+			};
+			var options = {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + TOKEN
+				},
+				body: JSON.stringify(body)
+			};
+			fetch(url, options)
+				.then((response) => response.text())
+				.then((text) => {
+					console.dir(text);
+					var id = JSON.parse(text);
+					document.getElementById("#row-id").innerText = id.id;
+				})
+				;
+		}
+		function getRow() {
+			var id = document.getElementById("#row-id-input").value;
+			var parameter = new URLSearchParams({ id: id });
+			var url = '/row?' + parameter;
+			var options = {
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + TOKEN
+				}
+			};
+			fetch(url, options)
+				.then((response) => response.text())
+				.then((text) => {
+					console.dir(text);
+					//var id = JSON.parse(text);
+					document.getElementById("#row").innerText = text;
+				})
+				;
+		}
+		function postUser() {
+			var input = document.getElementById("#user-input").value;
+			var url = '/user';
+			var body = {
+				value: input
+			};
+			var options = {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + TOKEN
+				},
+				body: JSON.stringify(body)
+			};
+			fetch(url, options)
+				.then((response) => response.text())
+				.then((text) => {
+					console.dir(text);
+					var id = JSON.parse(text);
+					document.getElementById("#user-id").innerText = id.id;
+				})
+				;
+		}
+		function getUser() {
+			var id = document.getElementById("#user-id-input").value;
+			var parameter = new URLSearchParams({ id: id });
+			var url = '/user?' + parameter;
+			var options = {
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + TOKEN
+				}
+			};
+			fetch(url, options)
+				.then((response) => response.text())
+				.then((text) => {
+					console.dir(text);
+					//var id = JSON.parse(text);
+					document.getElementById("#user").innerText = text;
+				})
+				;
+		}
+		function getAllUsers() {
+			var url = '/user/all';
+			var options = {
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + TOKEN
+				}
+			};
+			fetch(url, options)
+				.then((response) => response.text())
+				.then((text) => {
+					console.dir(text);
+					//var id = JSON.parse(text);
+				})
+				;
+		}
+		function getPrivate() {
+			var url = '/api/v1/private/';
+			var options = {
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + TOKEN
+				}
+			};
+			fetch(url, options)
+				.then((response) => response.text())
+				.then((text) => {
+					console.log(text);
+					//var id = JSON.parse(text);
+				})
+				;
+		}
+		function setTime() {
+			document.getElementById("#klocka").innerHTML = new Date().toLocaleString();
+		}
 
-        setTime();
-        var id = setInterval(setTime, 1000)
+		setTime();
+		var id = setInterval(setTime, 1000)
 
-        // Auth0
-        var auth0Client = null;
-        var fetchAuthConfig = () => fetch("/auth_config.json");
+		// Auth0
+		var auth0Client = null;
+		var fetchAuthConfig = () => fetch("/auth_config.json");
 
-        const configureClient = async () => {
-          const response = await fetchAuthConfig();
-          const config = await response.json();
+		const configureClient = async () => {
+			const response = await fetchAuthConfig();
+			const config = await response.json();
 
-          AUDIENCE = config.audience;
+			AUDIENCE = config.audience;
 
-          auth0Client = await auth0.createAuth0Client({
-            audience: AUDIENCE,
-          domain: config.domain,
-          clientId: config.clientId
-          });
-        };
-        const updateUI = async () => {
-          const isAuthenticated = await auth0Client.isAuthenticated();
+			auth0Client = await auth0.createAuth0Client({
+				audience: AUDIENCE,
+			domain: config.domain,
+			clientId: config.clientId
+			});
+		};
+		const updateUI = async () => {
+			const isAuthenticated = await auth0Client.isAuthenticated();
 
-          document.getElementById("btn-logout").disabled = !isAuthenticated;
-          document.getElementById("btn-login").disabled = isAuthenticated;
+			document.getElementById("btn-logout").disabled = !isAuthenticated;
+			document.getElementById("btn-login").disabled = isAuthenticated;
 
-          console.log("Authenticated?" + isAuthenticated);
-          if (isAuthenticated) {
-          document.getElementById("gated-content").classList.remove("hidden");
+			console.log("Authenticated?" + isAuthenticated);
+			if (isAuthenticated) {
+			document.getElementById("gated-content").classList.remove("hidden");
 
-          console.log("Getting Id Token.");
-          auth0Client.getIdTokenClaims().then(function(id) {
-            console.log("Id Token:");
-            console.dir(id);
-            document.getElementById(
-              "ipt-id-token"
-            ).innerHTML = id.nonce;
-          });
+			console.log("Getting Id Token.");
+			auth0Client.getIdTokenClaims().then(function(id) {
+				console.log("Id Token:");
+				console.dir(id);
+				document.getElementById(
+					"ipt-id-token"
+				).innerHTML = id.nonce;
+			});
 
-          console.log("Getting Access Token.");
-          auth0Client.getTokenSilently({authorizationParams: {audience: AUDIENCE}, detailedResponse: true}).then(function(token) {
-            console.log("Access token:");
-            console.dir(token);
-            TOKEN = token.access_token;
-            document.getElementById("ipt-access-token").innerHTML = TOKEN
-          });
+			console.log("Getting Access Token.");
+			auth0Client.getTokenSilently({authorizationParams: {audience: AUDIENCE}, detailedResponse: true}).then(function(token) {
+				console.log("Access token:");
+				console.dir(token);
+				TOKEN = token.access_token;
+				document.getElementById("ipt-access-token").innerHTML = TOKEN
+			});
 
-          document.getElementById("ipt-user-profile").textContent = JSON.stringify(
-            await auth0Client.getUser()
-          );
+			document.getElementById("ipt-user-profile").textContent = JSON.stringify(
+				await auth0Client.getUser()
+			);
 
-          } else {
-          document.getElementById("gated-content").classList.add("hidden");
-          }
-        };
-        window.onload = async () => {
-          await configureClient();
+			} else {
+			document.getElementById("gated-content").classList.add("hidden");
+			}
+		};
+		window.onload = async () => {
+			await configureClient();
 
-          updateUI();
-          const isAuthenticated = await auth0Client.isAuthenticated();
+			updateUI();
+			const isAuthenticated = await auth0Client.isAuthenticated();
 
-          if (isAuthenticated) {
-          // show the gated content
-          return;
-          }
+			if (isAuthenticated) {
+			// show the gated content
+			return;
+			}
 
-          // NEW - check for the code and state parameters
-          const query = window.location.search;
-          if (query.includes("code=") && query.includes("state=")) {
+			// NEW - check for the code and state parameters
+			const query = window.location.search;
+			if (query.includes("code=") && query.includes("state=")) {
 
-          // Process the login state
-          await auth0Client.handleRedirectCallback();
+			// Process the login state
+			await auth0Client.handleRedirectCallback();
 
-          updateUI();
+			updateUI();
 
-          // Use replaceState to redirect the user away and remove the querystring parameters
-          window.history.replaceState({}, document.title, "/");
-          }
-        }
-        const login = async () => {
-          await auth0Client.loginWithRedirect({
-          authorizationParams: {
-            audience: AUDIENCE,
-            redirect_uri: window.location.origin
-          }
-          });
-        };
-        const logout = () => {
-          auth0Client.logout({
-          logoutParams: {
-            returnTo: window.location.origin
-          }
-          });
-        };
+			// Use replaceState to redirect the user away and remove the querystring parameters
+			window.history.replaceState({}, document.title, "/");
+			}
+		}
+		const login = async () => {
+			await auth0Client.loginWithRedirect({
+			authorizationParams: {
+				audience: AUDIENCE,
+				redirect_uri: window.location.origin
+			}
+			});
+		};
+		const logout = () => {
+			auth0Client.logout({
+			logoutParams: {
+				returnTo: window.location.origin
+			}
+			});
+		};
 
-        // Web socket
-        // From Baeldung Github https://github.com/eugenp/tutorials/blob/master/webrtc/src/main/resources/static/client.js
-        function clickSend() {
-          var message = document.getElementById("#message").value;
-          send(message);
-        }
+		// Web socket
+		// From Baeldung Github https://github.com/eugenp/tutorials/blob/master/webrtc/src/main/resources/static/client.js
+		function clickSend() {
+			var message = document.getElementById("message").value;
+			send(message);
+		}
 
-        //connecting to our signaling server
-        var conn = new WebSocket(webSocketAddress);
+		//connecting to our signaling server
+		var conn = new WebSocket(webSocketAddress);
 
 		function sendMessage() {
 			dataChannel.send(input.value);
 			input.value = "";
 		}
 
-        function send(message) {
-          conn.send(JSON.stringify(message));
-        }
+			function send(message) {
+				conn.send(JSON.stringify(message));
+			}
 
-        conn.onopen = function() {
-          console.log("Connected to the signaling server");
-          initialize();
-        };
+			conn.onopen = function() {
+				console.log("Connected to the signaling server");
+				initialize();
+			};
 
-        conn.onmessage = function(msg) {
-          console.log("Got message", msg.data);
-          document.getElementById("#incoming").innerText = msg.data;
-          var content = JSON.parse(msg.data);
-          var data = content.data;
-          switch (content.event) {
-          // when somebody wants to call us
-          case "offer":
-            handleOffer(data);
-            break;
-          case "answer":
-            handleAnswer(data);
-            break;
-          // when a remote peer sends an ice candidate to us
-          case "candidate":
-            handleCandidate(data);
-            break;
-          default:
-            break;
-          }
-	    };
+			conn.onmessage = function(msg) {
+				console.log("Got message", msg.data);
+				document.getElementById("#incoming").innerText = msg.data;
+				var content = JSON.parse(msg.data);
+				var data = content.data;
+				switch (content.event) {
+				// when somebody wants to call us
+				case "offer":
+					handleOffer(data);
+					break;
+				case "answer":
+					handleAnswer(data);
+					break;
+				// when a remote peer sends an ice candidate to us
+				case "candidate":
+					handleCandidate(data);
+					break;
+				default:
+					break;
+				}
+		};
 
-        var peerConnection;
-        var dataChannel;
-        var input = document.getElementById("messageInput");
+		var peerConnection;
+		var dataChannel;
+		var input = document.getElementById("messageInput");
 
-        function initialize() {
-          var configuration = null;
+		function initialize() {
+			var configuration = null;
 
-          peerConnection = new RTCPeerConnection(configuration);
+			peerConnection = new RTCPeerConnection(configuration);
 
-          // Setup ice handling
-          peerConnection.onicecandidate = function(event) {
-            if (event.candidate) {
-              send({
-                event : "candidate",
-                data : event.candidate
-              });
-            }
-          };
+			// Setup ice handling
+			peerConnection.onicecandidate = function(event) {
+				if (event.candidate) {
+					send({
+						event : "candidate",
+						data : event.candidate
+					});
+				}
+			};
 
-          // creating data channel
-          dataChannel = peerConnection.createDataChannel("dataChannel", {
-            reliable : true
-          });
+			// creating data channel
+			dataChannel = peerConnection.createDataChannel("dataChannel", {
+				reliable : true
+			});
 
-          dataChannel.onerror = function(error) {
-            console.log("Error occured on datachannel:", error);
-          };
+			dataChannel.onerror = function(error) {
+				console.log("Error occured on datachannel:", error);
+			};
 
-          // when we receive a message from the other peer, printing it on the console
-          dataChannel.onmessage = function(event) {
-            console.log("message:", event.data);
-          };
+			// when we receive a message from the other peer, printing it on the console
+			dataChannel.onmessage = function(event) {
+				console.log("message:", event.data);
+			};
 
-          dataChannel.onclose = function() {
-            console.log("data channel is closed");
-          };
+			dataChannel.onclose = function() {
+				console.log("data channel is closed");
+			};
 
-          peerConnection.ondatachannel = function (event) {
-            dataChannel = event.channel;
-          };
-        }
+			peerConnection.ondatachannel = function (event) {
+				dataChannel = event.channel;
+			};
+		}
 
-        function createOffer() {
-          peerConnection.createOffer(function(offer) {
-            send({
-              event : "offer",
-              data : offer
-            });
-            peerConnection.setLocalDescription(offer);
-          }, function(error) {
-            alert("Error creating an offer");
-          });
-        }
+		function createOffer() {
+			peerConnection.createOffer(function(offer) {
+				send({
+					event : "offer",
+					data : offer
+				});
+				peerConnection.setLocalDescription(offer);
+			}, function(error) {
+				alert("Error creating an offer");
+			});
+		}
 
-        function handleOffer(offer) {
-          peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+		function handleOffer(offer) {
+			peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
 
-          // create and send an answer to an offer
-          peerConnection.createAnswer(function(answer) {
-            peerConnection.setLocalDescription(answer);
-            send({
-              event : "answer",
-              data : answer
-            });
-          }, function(error) {
-            alert("Error creating an answer");
-          });
+			// create and send an answer to an offer
+			peerConnection.createAnswer(function(answer) {
+				peerConnection.setLocalDescription(answer);
+				send({
+					event : "answer",
+					data : answer
+				});
+			}, function(error) {
+				alert("Error creating an answer");
+			});
 
-        };
+		};
 
-        function handleCandidate(candidate) {
-          peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
-        };
+		function handleCandidate(candidate) {
+			peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+		};
 
-        function handleAnswer(answer) {
-          peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
-          console.log("connection established successfully!!");
-        };
+		function handleAnswer(answer) {
+			peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+			console.log("connection established successfully!!");
+		};
 	</script>
 </html>
