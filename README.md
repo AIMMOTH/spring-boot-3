@@ -18,6 +18,7 @@ Running Spring Boot 3 with the following features:
 - Auth0 4.4 JWT Access Token authorization (/api/v1/private)
 - CORS
 - CSP
+- R2DBC connection to MariaDB and MongoDB
 
 ## Instructions
 
@@ -61,6 +62,7 @@ You need to install Maven and Docker Desktop first.
 
 1. Start Docker Desktop
 2. Start Docker images > docker-compose up
+3. Create database called 'ce' in MariaDB and a table with the script at *src/main/resources/schema.sql* 
 3. Build with > mvn package
 4. Run with > mvn spring-boot:start
 5. Stop with > mvn spring-boot:stop

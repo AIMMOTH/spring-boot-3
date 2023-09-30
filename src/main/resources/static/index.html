@@ -46,9 +46,10 @@
 		<button onclick="multiply()">Multiply</button>
 		<button onclick="time()">Time</button>
 		<p>Klocka <span id="#klocka"></span></p>
+
 		<h2>WebSocket/WebRTC</h2>
-		<p>Message <input id="#message" type="text" value="Hello?"> <button onclick="clickSend()">Send</button></p>
-		<p>Incoming messae: <span id="#incoming"></span></p>
+		<p>Message <input id="message" type="text" value="Hello?"> <button id="ws-send" onclick="clickSend()">Send</button></p>
+		<p>Incoming message: <span id="#incoming"></span></p>
 
 		<h2>Immutable</h2>
 		<p>Create immutable objects and load with cache.</p>
@@ -77,6 +78,7 @@
 				// Stupid way to access these globally
 				var TOKEN = null;
 				var AUDIENCE = null;
+				var webSocketAddress = 'wss://https://com-github-aimmoth-spring-boot-3.jls-sto2.elastx.net/web-socket/';
 
         function time() {
           var options = {
@@ -276,12 +278,6 @@
         setTime();
         var id = setInterval(setTime, 1000)
 
-        // Web socket
-        function clickSend() {
-          var message = document.getElementById("#message").value;
-          send(message);
-        }
-
         // Auth0
         var auth0Client = null;
         var fetchAuthConfig = () => fetch("/auth_config.json");
@@ -372,9 +368,25 @@
           }
           });
         };
+
+        // Web socket
         // From Baeldung Github https://github.com/eugenp/tutorials/blob/master/webrtc/src/main/resources/static/client.js
+        function clickSend() {
+          var message = document.getElementById("#message").value;
+          send(message);
+        }
+
         //connecting to our signaling server
-        var conn = new WebSocket('ws://localhost:8084/web-socket/');
+        var conn = new WebSocket(webSocketAddress);
+
+		function sendMessage() {
+			dataChannel.send(input.value);
+			input.value = "";
+		}
+
+        function send(message) {
+          conn.send(JSON.stringify(message));
+        }
 
         conn.onopen = function() {
           console.log("Connected to the signaling server");
@@ -401,11 +413,7 @@
           default:
             break;
           }
-        };
-
-        function send(message) {
-          conn.send(JSON.stringify(message));
-        }
+	    };
 
         var peerConnection;
         var dataChannel;
@@ -447,7 +455,6 @@
           peerConnection.ondatachannel = function (event) {
             dataChannel = event.channel;
           };
-
         }
 
         function createOffer() {
@@ -486,10 +493,5 @@
           peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
           console.log("connection established successfully!!");
         };
-
-        function sendMessage() {
-          dataChannel.send(input.value);
-          input.value = "";
-        }
 	</script>
 </html>

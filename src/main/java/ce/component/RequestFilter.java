@@ -36,6 +36,8 @@ public class RequestFilter implements Filter {
             var origin = httpRequest.getHeader("origin");
             var host = httpRequest.getHeader("host");
 
+            log.info("referer:" + referer + ", origin:" + origin + ", host:" + host);
+
             if (checkHeader(referer) || checkHeader(origin) || checkHeader(host)) {
                 chain.doFilter(request, response);
             } else {
