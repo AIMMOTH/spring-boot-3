@@ -19,5 +19,6 @@ logging:
 
 ce:
   multiplier: 113
+  security:
+    webSocket: localhost:8080
 ---
-

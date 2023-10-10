@@ -15,29 +15,11 @@
 		<p>Message <input id="#message" type="text" value="Hello?"> <button onclick="clickSend()">Send</button></p>
 		<p>Incoming messae: <span id="#incoming"></span></p>
 
-		<h2>Immutable</h2>
-		<p>Create immutable objects and load with cache.</p>
-		<p><input id="#immutable-input"><button onclick="postImmutable()">Post</button></p>
-		<p>Latest immutable id: <span id="#immutable-id"></span></p>
-		<p><input id="#immutable-id-input" value="1"><button onclick="getImmutable()">Get</button></p>
-		<p>Immutable object: <span id="#immutable-object"></span></p>
-
-		<h2>MariaDB</h2>
-		<p>Create row in MariaDB</p>
-		<p><input id="#row-input" value="1"><button onclick="postRow()">Post</button></p>
-		<p>Latest row id: <span id="#row-id"></span></p>
-		<p><input id="#row-id-input" value="1"><button onclick="getRow()">Get</button></p>
-		<p>Row: <span id="#row"></span></p>
-
-		<h2>MongoDB</h2>
-		<p>Create user in MongoDB</p>
-		<p><input id="#user-input"><button onclick="postUser()">Post</button></p>
-		<p>Latest user id: <span id="#user-id"></span></p>
-		<p><input id="#user-id-input" value="1"><button onclick="getUser()">Get</button></p>
-		<p>User: <span id="#user"></span></p>
-		<p><button onclick="getAllUsers()">Get ALL Users</button></p>
 	</body>
 	<script>
+
+		var webSocketAddress = 'ws://localhost:8080/web-socket';
+
 		function time() {
 			fetch('/server-time')
 				.then((response) => response.text())
@@ -201,7 +183,7 @@
 
 		// From Baeldung Github https://github.com/eugenp/tutorials/blob/master/webrtc/src/main/resources/static/client.js
 		//connecting to our signaling server
-		var conn = new WebSocket('ws://localhost:8084/web-socket');
+		var conn = new WebSocket(webSocketAddress);
 
 		conn.onopen = function() {
 			console.log("Connected to the signaling server");
