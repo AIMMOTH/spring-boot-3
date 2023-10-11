@@ -76,15 +76,17 @@
 	<script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
 	<script>
 		// Stupid way to access these globally
-		var TOKEN = null;
-		var AUDIENCE = null;
-		var webSocketAddress = 'ws://localhost:8084/web-socket/';
+		var ce = {
+			TOKEN: null,
+			AUDIENCE: null,
+			webSocketAddress: 'ws://localhost:8084/web-socket/'
+		};
 
 		function time() {
 			var options = {
 				method: "GET",
 				headers: {
-					Authorization: "Bearer " + TOKEN
+					Authorization: "Bearer " + ce.TOKEN
 				}
 			};
 			fetch('/server-time', options)
@@ -101,7 +103,7 @@
 			var options = {
 				method: "GET",
 				headers: {
-					Authorization: "Bearer " + TOKEN
+					Authorization: "Bearer " + ce.TOKEN
 				}
 			};
 			fetch('/multiply?' + parameter, options)
@@ -122,7 +124,7 @@
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: "Bearer " + TOKEN
+					Authorization: "Bearer " + ce.TOKEN
 				},
 				body: JSON.stringify(body)
 			};
@@ -142,7 +144,7 @@
 			var options = {
 				method: "GET",
 				headers: {
-					Authorization: "Bearer " + TOKEN
+					Authorization: "Bearer " + ce.TOKEN
 				}
 			};
 			fetch(url, options)
@@ -165,7 +167,7 @@
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: "Bearer " + TOKEN
+					Authorization: "Bearer " + ce.TOKEN
 				},
 				body: JSON.stringify(body)
 			};
@@ -185,7 +187,7 @@
 			var options = {
 				method: "GET",
 				headers: {
-					Authorization: "Bearer " + TOKEN
+					Authorization: "Bearer " + ce.TOKEN
 				}
 			};
 			fetch(url, options)
@@ -207,7 +209,7 @@
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: "Bearer " + TOKEN
+					Authorization: "Bearer " + ce.TOKEN
 				},
 				body: JSON.stringify(body)
 			};
@@ -227,7 +229,7 @@
 			var options = {
 				method: "GET",
 				headers: {
-					Authorization: "Bearer " + TOKEN
+					Authorization: "Bearer " + ce.TOKEN
 				}
 			};
 			fetch(url, options)
@@ -244,7 +246,7 @@
 			var options = {
 				method: "GET",
 				headers: {
-					Authorization: "Bearer " + TOKEN
+					Authorization: "Bearer " + ce.TOKEN
 				}
 			};
 			fetch(url, options)
@@ -260,7 +262,7 @@
 			var options = {
 				method: "GET",
 				headers: {
-					Authorization: "Bearer " + TOKEN
+					Authorization: "Bearer " + ce.TOKEN
 				}
 			};
 			fetch(url, options)
@@ -286,10 +288,10 @@
 			const response = await fetchAuthConfig();
 			const config = await response.json();
 
-			AUDIENCE = config.audience;
+			ce.AUDIENCE = config.audience;
 
 			auth0Client = await auth0.createAuth0Client({
-				audience: AUDIENCE,
+				audience: ce.AUDIENCE,
 			domain: config.domain,
 			clientId: config.clientId
 			});
@@ -314,11 +316,11 @@
 			});
 
 			console.log("Getting Access Token.");
-			auth0Client.getTokenSilently({authorizationParams: {audience: AUDIENCE}, detailedResponse: true}).then(function(token) {
+			auth0Client.getTokenSilently({authorizationParams: {audience: ce.AUDIENCE}, detailedResponse: true}).then(function(token) {
 				console.log("Access token:");
 				console.dir(token);
-				TOKEN = token.access_token;
-				document.getElementById("ipt-access-token").innerHTML = TOKEN
+				ce.TOKEN = token.access_token;
+				document.getElementById("ipt-access-token").innerHTML = ce.TOKEN
 			});
 
 			document.getElementById("ipt-user-profile").textContent = JSON.stringify(
@@ -356,7 +358,7 @@
 		const login = async () => {
 			await auth0Client.loginWithRedirect({
 			authorizationParams: {
-				audience: AUDIENCE,
+				audience: ce.AUDIENCE,
 				redirect_uri: window.location.origin
 			}
 			});
@@ -377,7 +379,7 @@
 		}
 
 		//connecting to our signaling server
-		var conn = new WebSocket(webSocketAddress);
+		var conn = new WebSocket(ce.webSocketAddress);
 
 		function sendMessage() {
 			dataChannel.send(input.value);

@@ -45,5 +45,6 @@ ce:
   multiplier: 113
   security:
     cors: http://localhost:8084/
+    webSocket: localhost:8084
 ---
 
