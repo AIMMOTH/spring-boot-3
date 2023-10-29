@@ -30,7 +30,7 @@ public class ResponseFilter implements Filter {
             var scriptCsp = domains + " 'unsafe-inline' 'unsafe-eval'";
             var styleCsp = "'unsafe-inline';";
 
-            var cspValue = String.format("default-src 'self' %s; script-src %s; style-src %s;", domains, scriptCsp, styleCsp);
+            var cspValue = String.format("default-src 'self' %s; script-src %s; style-src %s; connect-src 'self' https: ws: wss:;", domains, scriptCsp, styleCsp);
 
             log.info("Setting " + cspKey + " to " + cspValue);
             httpResponse.addHeader(cspKey, cspValue);

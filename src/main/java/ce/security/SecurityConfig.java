@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @Log
 public class SecurityConfig {
 
@@ -30,9 +30,9 @@ public class SecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
         .authorizeHttpRequests()
-        .requestMatchers("/api/v1/public/**", "/", "/index.html", "/favicon.ico", "/auth_config.json", "/web-socket/"
-        ).permitAll()
-        .requestMatchers("/api/v1/private/**", "/server-time", "/multiply", "/immutable", "/row", "/user/**").authenticated()
+        .requestMatchers("/api/v1/public/**", "/", "/index.html", "/*.js", "/favicon.ico", "/auth_config.json", "/public/web-socket/")
+        .permitAll()
+        .requestMatchers("/api/v1/private/**", "/server-time**", "/multiply**", "/immutable**", "/row**", "/user**").authenticated()
         .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and().oauth2ResourceServer().jwt()
         ;
